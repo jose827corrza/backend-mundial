@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dtos/user.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { User } from '../entities/user.entity';
 
 @Injectable()
@@ -19,7 +19,11 @@ export class UserService {
   }
 
   findOne(id: number) {
-    return this.usersList.find((user) => id === user.id);
+    const user = this.usersList.find((user) => id === user.id);
+    if (!user) {
+      throw new NotFoundException(`User with ID: ${id}. Does not exist`);
+    }
+    return user;
   }
 
   createOne(user: CreateUserDto) {
@@ -30,5 +34,13 @@ export class UserService {
     };
     this.usersList.push(newProduct);
     return newProduct;
+  }
+
+  updateOne(id: number, user: UpdateUserDto) {
+    const foundUser = this.usersList.findIndex(id);
+    if (!foundUser) {
+      throw new NotFoundException(`User with ID: ${id}. Does not exist`);
+    }
+
   }
 }

@@ -28,10 +28,6 @@ export class UsersController {
     description: 'The user does not exist',
   })
   getOne(@Param('id', ParseIntPipe) id: number): User {
-    const user = this.userService.findOne(id);
-    if (!user) {
-      throw new NotFoundException(`User with ID: ${id}. Does not exist`)
-    }
     return this.userService.findOne(id);
   }
 
