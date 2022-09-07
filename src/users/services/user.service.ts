@@ -37,10 +37,22 @@ export class UserService {
   }
 
   updateOne(id: number, user: UpdateUserDto) {
-    const foundUser = this.usersList.findIndex(id);
+    const foundUserIndex = this.usersList.findIndex((user) => id === user.id);
+    const foundUser = this.usersList[foundUserIndex];
     if (!foundUser) {
       throw new NotFoundException(`User with ID: ${id}. Does not exist`);
     }
+    return (this.usersList[foundUserIndex] = {
+      ...foundUser,
+      ...user,
+    });
+  }
 
+  removeOne(id: number) {
+    const foundUserIndex = this.usersList.findIndex((user) => id === user.id);
+    if (!foundUserIndex) {
+      throw new NotFoundException(`User with ID: ${id}. Does not exist`);
+    }
+    return this.usersList.splice(foundUserIndex, 1);
   }
 }
