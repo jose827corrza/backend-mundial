@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, ParseIntPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateCardDto } from '../dtos/card.dto';
 import { Card } from '../entities/card.entity';
@@ -15,7 +15,7 @@ export class CardsController {
   }
 
   @Get(':id')
-  getOne(@Param('id') id: string): Card {
+  getOne(@Param('id', ParseIntPipe) id: number) {
     return this.cardService.findOne(id);
   }
 

@@ -22,7 +22,7 @@ export class UsersController {
     summary: 'Get all users',
     description: 'Returns all the users in the application',
   })
-  getAll(): User[] {
+  getAll() {
     return this.userService.findAll();
   }
 
@@ -35,7 +35,7 @@ export class UsersController {
     status: 404,
     description: 'The user does not exist',
   })
-  getOne(@Param('id', ParseIntPipe) id: number): User {
+  getOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findOne(id);
   }
 
@@ -44,7 +44,7 @@ export class UsersController {
     summary: 'Creates an new user',
     description: 'Returns the user created',
   })
-  createOne(@Body() payload: CreateUserDto): User {
+  createOne(@Body() payload: CreateUserDto){
     return this.userService.createOne(payload);
   }
 
@@ -56,7 +56,15 @@ export class UsersController {
   updateOne(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateUserDto,
-  ): User {
+  ) {
     return this.userService.updateOne(id, payload);
+  }
+
+  @Put(':userId/ownedcards/:cardCode')
+  addCard(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('cardCode') cardCode: string,
+  ) {
+    return this.userService.addCardToUser(userId, cardCode);
   }
 }
