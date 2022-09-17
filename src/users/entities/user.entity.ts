@@ -35,4 +35,12 @@ export class User {
   @ManyToMany(() => Card)
   @JoinTable()
   ownedCards: Card[];
+
+  @ApiProperty({
+    description:
+      'This array contains the different cards that the user wants to acquire.',
+  })
+  @ManyToMany(() => Card)
+  @JoinTable()
+  requiredCards: Card[];
 }

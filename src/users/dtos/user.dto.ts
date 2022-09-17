@@ -28,6 +28,12 @@ export class CreateUserDto {
     description: 'List of cards that the user owns',
   })
   readonly ownedCards: Card[];
+
+  @IsArray()
+  @ApiProperty({
+    description: 'List of cards that the user wants to acquire',
+  })
+  readonly requiredCards: Card[];
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}

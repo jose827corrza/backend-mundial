@@ -67,4 +67,12 @@ export class UsersController {
   ) {
     return this.userService.addCardToUser(userId, cardCode);
   }
+
+  @Put(':userId/requiredcards/:cardCode')
+  addCardtoRequired(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('cardCode') cardCode: string,
+  ) {
+    return this.userService.addCardsRequiredByUser(userId, cardCode);
+  }
 }

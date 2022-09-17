@@ -29,7 +29,7 @@ export class UserService {
     // return user;
     // const user = await this.userRepo.findOneBy({ id });
     const user = await this.userRepo.findOne({
-      relations: { ownedCards: true },
+      relations: { ownedCards: true, requiredCards: true },
       where: { id },
     });
     if (!user) {
@@ -91,6 +91,21 @@ export class UserService {
     user.ownedCards.push(card);
     console.log(user);
 
+    return this.userRepo.save(user);
+  }
+
+  async addCardsRequiredByUser(userId: number, cardCode: string) {
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+      relations: { requiredCards: true },
+    });
+    const card = await this.cardRepo.findOne({ where: { code: cardCode } });
+    if (!card) {
+      throw new NotFoundException(
+        `Card with cardcode: ${cardCode}. Does not exist`,
+      );
+    }
+    user.requiredCards.push(card);
     return this.userRepo.save(user);
   }
 }
